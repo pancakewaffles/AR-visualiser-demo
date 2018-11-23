@@ -1,0 +1,89 @@
+<html>
+<head>
+<script src="https://aframe.io/releases/0.8.2/aframe.min.js"></script>
+<!-- AR -->
+<script src="https://rawgit.com/jeromeetienne/ar.js/master/aframe/build/aframe-ar.js"></script>
+<script>THREEx.ArToolkitContext.baseURL = 'https://rawgit.com/jeromeetienne/ar.js/master/three.js/'</script>
+<!-- d3 library -->
+<script src="./lib/d3.v4.min.js"></script>
+<script src="./lib/d3-scale-chromatic.v1.min.js"></script>
+<!-- dbslice -->
+<script src="./lib/dbslice.js"></script>
+<!--networked-aframe -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.5/socket.io.min.js"></script>
+<script src="/easyrtc/easyrtc.js"></script>
+<script src="https://unpkg.com/networked-aframe/dist/networked-aframe.min.js"></script>
+<!--hammertime.js for handling gestures -->
+<script src="https://hammerjs.github.io/dist/hammer.js"></script>
+<!-- PRWM format -->
+<script src="./lib/PRWMLoader.js"></script>
+<!-- our own api -->
+<script src="./lib/sampledata.js"></script>
+<script src="./lib/api.js"></script>
+<!-- Materialize CSS and JS Library -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/css/materialize.min.css">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/js/materialize.min.js"></script>
+<script src="https://unpkg.com/aframe-animation-component@^4.1.2/dist/aframe-animation-component.min.js"></script>
+<script src="./lib/aframe-rounded-component.min.js"></script>
+<!-- Components -->
+<script src="./components/mobile-optimisation-component.js"></script>
+<script src="./components/multiroom-mode-component.js"></script>
+<script src="./components/rotatable-component.js"></script>
+<script src="./components/scalable-component.js"></script>
+<script src="./components/taskselect-component.js"></script>
+<script src="./components/wireframey-component.js"></script>
+<script src="./components/marker-detected-component.js"></script>
+<script src = "./components/renderer-modified-component.js"></script>
+<script src = "./components/colorbar-visibility-component.js"></script>
+<script src = "./components/info-gatherer-component.js"></script>
+<script src = "./components/resizable-window-component.js"></script>
+<!-- Controllers -->
+<script src="./controllers/master-controller.js"></script>
+<script src="./controllers/network-controller.js"></script>
+  
+<link rel="stylesheet" type="text/css" href="./css/styles.css" />
+
+</head>
+<body>
+  <script src="./lib/onload.js"></script>
+  
+	<a-scene 
+           master-controller 
+           network-controller 
+           info-gatherer
+           resizable-window
+           marker-detected
+           multiroom-mode 
+           mobile-optimisation 
+           renderer-modified = "antialias:false"
+           vr-mode-ui="enabled: false" 
+            >
+
+
+<a-marker preset='hiro'>
+
+  <a-entity id = 'scene-scaler'>
+  
+  <a-entity id = 'task1_button_container' position = "0 -2.5 3.5" rotation = '-90 0 0'>
+
+    <a-entity position='-1.0 2.0 3.0' rotation = '0 0 0' text='value:task1;align:center;xOffset:1;height:2;width:6;zOffset:0.5;color:#000080'></a-entity>
+
+  </a-entity>
+  
+  <a-entity colorbar-visibility id = 'colorbar' position = "-2.0 -2.0 5.0"></a-entity>
+  
+  <a-entity id = 'task1_boundingbox' class = 'bounding_box' position = '0 -2.0 -0.5' geometry='primitive:box;height:5;width:5;depth:5' material='color:grey' wireframey><a-entity id = 'task1' class = 'task' rotatable scalable></a-entity></a-entity>
+   
+
+    </a-entity>
+  
+</a-marker>
+
+    <a-camera-static></a-camera-static>
+   
+    
+</a-scene>
+
+</body>
+</html>

@@ -1,0 +1,18 @@
+#settings-button{
+  position: absolute;
+  bottom: 84%;
+  right: 2%;
+}
+
+#meshes_menu_container {
+  position: absolute;
+  bottom: 16%;
+  right: 2%;
+}
+ul#dropdown_meshes_selection.dropdown-content li a{
+  background: white;
+  color: purple;
+}
+.modal-footer{
+  text-align:center;
+}

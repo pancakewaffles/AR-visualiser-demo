@@ -48,7 +48,7 @@ function load_inventory_list(){
   }
   if(!urlParams.inventory_list){
     console.log('inventory list not provided in URL.');
-    document.querySelector('a-scene').systems['master-controller'].set_inventory_list(sample_data);
+    //document.querySelector('a-scene').systems['master-controller'].set_inventory_list(sample_data);
     return;
   }
   let inv = JSON.parse(decodeURI(window.atob(urlParams.inventory_list)));
@@ -113,6 +113,9 @@ function populate_meshes_menu(menuData){
                           menuData.meshes[mesh_id]);
          }
        })
+    let divider = document.createElement('div');
+    divider.className = "dropdown-divider";
+    ul.appendChild(divider);
      });
   M.Dropdown.getInstance(document.querySelector('.dropdown-trigger')).recalculateDimensions();
 }

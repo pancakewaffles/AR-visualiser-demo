@@ -16,3 +16,7 @@ ul#dropdown_meshes_selection.dropdown-content li a{
 .modal-footer{
   text-align:center;
 }
+
+.dropdown-menu{
+  width:150%;
+}

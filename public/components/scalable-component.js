@@ -12,7 +12,7 @@ AFRAME.registerComponent('scalable',{
     hammertime.get('pinch').set({ enable: true }); 
     var lastScale;
     var scaleFactor;
-    var MINSCALE = 1, MAXSCALE = 2.0;
+    var MINSCALE = 1, MAXSCALE = 4.0;
     hammertime.on("pinch", (ev) => {
       if(!this.markerVisible || sceneEl.systems['master-controller'].get_meshes_info_list().length ==0){return;}
        let scale = {x:Math.max(MINSCALE,Math.min(lastScale.x*ev.scale,MAXSCALE)), 

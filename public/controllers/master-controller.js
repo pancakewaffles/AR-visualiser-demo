@@ -19,6 +19,7 @@ AFRAME.registerSystem('master-controller', {
     for(let i =0;i<list.length;i++){
       this.inventory_list.push(list[i]);
     }
+    load_new_task(null);
   },
   get_meshes_list:function(){
     return document.querySelectorAll('.mesh');

@@ -13,8 +13,10 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.5/socket.io.min.js"></script>
 <script src="/easyrtc/easyrtc.js"></script>
 <script src="https://unpkg.com/networked-aframe/dist/networked-aframe.min.js"></script>
-<!--hammertime.js for handling gestures -->
+<!-- hammertime.js for handling gestures -->
 <script src="https://hammerjs.github.io/dist/hammer.js"></script>
+<!-- clipboard-polyfill for copying links -->
+<script src="./lib/clipboard-polyfill.js"></script>
 <!-- PRWM format -->
 <script src="./lib/PRWMLoader.js"></script>
 <!-- our own api -->
@@ -24,8 +26,6 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/css/materialize.min.css">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/js/materialize.min.js"></script>
-<script src="https://unpkg.com/aframe-animation-component@^4.1.2/dist/aframe-animation-component.min.js"></script>
-<script src="./lib/aframe-rounded-component.min.js"></script>
 <!-- Components -->
 <script src="./components/mobile-optimisation-component.js"></script>
 <script src="./components/multiroom-mode-component.js"></script>
@@ -73,7 +73,7 @@
   
   <a-entity colorbar-visibility id = 'colorbar' position = "-2.0 -2.0 5.0"></a-entity>
   
-  <a-entity id = 'task1_boundingbox' class = 'bounding_box' position = '0 -2.0 -0.5' geometry='primitive:box;height:5;width:5;depth:5' material='color:grey' wireframey><a-entity id = 'task1' class = 'task' rotatable scalable></a-entity></a-entity>
+  <a-entity id = 'task1_boundingbox' class = 'bounding_box' position = '0 -2.0 -0.5' geometry='primitive:box;height:5;width:5;depth:5' material='color:grey' wireframey><a-entity id = 'task1' class = 'task' scale='5 5 5' rotatable scalable></a-entity></a-entity>
    
 
     </a-entity>

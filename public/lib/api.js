@@ -250,26 +250,7 @@ function onARConnect () {
 
 function copyLink(){
   let copiedurl = window.location.href.split("&inventory_list=")[0];
-  let dummy = document.createElement("textarea");
-  document.body.appendChild(dummy);
-  dummy.value = copiedurl;
-    // handle iOS as a special case
-  if (navigator.userAgent.match(/ipad|ipod|iphone/i)) {
-      dummy.contentEditable = true;
-      dummy.readOnly = true;
-      let range = document.createRange();
-      range.selectNodeContents(dummy);
-      let selection = window.getSelection();
-      selection.removeAllRanges();
-      selection.addRange(range);
-      dummy.setSelectionRange(0, 999999);
-  }
-  else {
-      dummy.select();
-  }
-  dummy.focus();
-  document.execCommand("copy");
-  document.body.removeChild(dummy);   
+  clipboard.writeText(copiedurl);
   M.toast({html: 'Copied link '+copiedurl+'. Invite others using it.', displayLength:1500});
 }
 
@@ -300,7 +281,7 @@ function create_notification(msg){
 
 // TODO: load color bar for each task.
 function load_color_bar(){
-  let VMIN = 0.5 , VMAX = 0.8;
+  let VMIN = -0.5 , VMAX = 0.5;
   if(!document.querySelector('a-entity#colorbar').hasChildNodes()){
     create_color_bar(VMIN,VMAX);
   }

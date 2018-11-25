@@ -48,7 +48,7 @@ function load_inventory_list(){
   }
   if(!urlParams.inventory_list){
     console.log('inventory list not provided in URL.');
-    //document.querySelector('a-scene').systems['master-controller'].set_inventory_list(sample_data);
+    document.querySelector('a-scene').systems['master-controller'].set_inventory_list(sample_data);
     return;
   }
   let inv = JSON.parse(decodeURI(window.atob(urlParams.inventory_list)));
@@ -66,8 +66,6 @@ function create_meshes_menu(){
   dropdownIcon.innerHTML = 'apps';
   dropdownTrigger.className = 'waves-dark waves-effect dropdown-trigger btn-floating white';
   dropdownTrigger.setAttribute('data-target','dropdown_meshes_selection');
-  dropdownTrigger.setAttribute('data-covertrigger','false');
-  dropdownTrigger.setAttribute('data-constrainwidth','false');
   
   // Dropdown Structure
   let ul = document.createElement('ul');
@@ -80,7 +78,7 @@ function create_meshes_menu(){
   
   document.body.appendChild(dropdownContainer);
   
-  M.Dropdown.init(dropdownTrigger,{coverTrigger:false,container:document.querySelector('#meshes_menu_container'),constrainWidth:false});
+  M.Dropdown.init(dropdownTrigger,{coverTrigger:false,container:document.querySelector('#meshes_menu_container'),constrainWidth:false, closeOnClick:false});
   
 };
 
@@ -92,6 +90,7 @@ function populate_meshes_menu(menuData){
      let lineElement = document.createElement('li');
      let lineElement_a = document.createElement('a');
      lineElement_a.innerHTML = mesh_id;
+     lineElement_a.setAttribute('data-name',mesh_id);
      lineElement.appendChild(lineElement_a);
      ul.appendChild(lineElement);
      lineElement.addEventListener('click', function(ev){
@@ -113,8 +112,8 @@ function populate_meshes_menu(menuData){
                           menuData.meshes[mesh_id]);
          }
        })
-    let divider = document.createElement('div');
-    divider.className = "dropdown-divider";
+    let divider = document.createElement('li');
+    divider.className = "divider";
     ul.appendChild(divider);
      });
   M.Dropdown.getInstance(document.querySelector('.dropdown-trigger')).recalculateDimensions();

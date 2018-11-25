@@ -274,6 +274,16 @@ function load_new_task(el){
 
 };
 
+function load_default_mesh(){ // DO NOT USE YET, has issues with synchronisation
+  let controller = document.querySelector('a-scene').systems['master-controller'];
+  let network_controller = document.querySelector('a-scene').systems['network-controller'];
+  let inventory_list = controller.get_inventory_list();
+  let connected_clients_list = network_controller.get_connected_clients_list();
+  if(connected_clients_list.length === 0){
+    document.querySelector('[data-name='+inventory_list[0]['entity_id']+']').click();
+  }
+}
+
 function create_notification(msg){
   M.toast({html: msg, displayLength:1500});    
 };

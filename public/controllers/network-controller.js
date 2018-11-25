@@ -24,6 +24,7 @@ AFRAME.registerSystem('network-controller',{
         case 'toggle':
           this.el.systems['master-controller'].toggle_entity(data['entity_id']);
           console.log("received instruction "+data['instruction'] +"to act on "+data['entity_id']);
+          break;
         default:
           break;
                                 };

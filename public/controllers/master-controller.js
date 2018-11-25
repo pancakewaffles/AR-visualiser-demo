@@ -113,14 +113,16 @@ AFRAME.registerSystem('master-controller', {
     this.recalculate_position();
   },
   update_network_on_toggle_entity:function(entity_id){
-    this.el.systems['network-controller'].send_instruction({'instruction':'toggle','entity_id':entity_id});
+    let data = {'instruction':'toggle','entity_id':entity_id};
+    this.el.systems['network-controller'].send_instruction('all', data);
   },
   remove_entity:function(entity_id){
     let entity = document.querySelector('#'+entity_id);
     entity.remove();
   },
   update_network_on_removing_entity:function(entity_id){
-    this.el.systems['network-controller'].send_instruction({'instruction':'remove','entity_id':entity_id});
+    let data = {'instruction':'remove','entity_id':entity_id};
+    this.el.systems['network-controller'].send_instruction('all', data);
   },
   update_all:function(){
     let something_visible = false;

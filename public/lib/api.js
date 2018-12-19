@@ -46,9 +46,11 @@ function load_inventory_list(){
     urlParams[decode(match[1])] = decode(match[2]);
     match = search.exec(query);
   }
-  if(!urlParams.inventory_list){
+  var inv_list = document.querySelector('a-scene').systems['master-controller'].get_inventory_list();
+  if(!urlParams.inventory_list && (!Array.isArray(inv_list) || !inv_list.length) ){
     console.log('inventory list not provided in URL.');
-    document.querySelector('a-scene').systems['master-controller'].set_inventory_list(sample_data);
+    alert("No data loaded, try loading the AR Visualiser through dbslice.");
+    //document.querySelector('a-scene').systems['master-controller'].set_inventory_list(sample_data);
     return;
   }
   let inv = JSON.parse(decodeURI(window.atob(urlParams.inventory_list)));
@@ -275,13 +277,26 @@ function load_new_task(el){
 };
 
 function load_default_mesh(){ // DO NOT USE YET, has issues with synchronisation
-  let controller = document.querySelector('a-scene').systems['master-controller'];
-  let network_controller = document.querySelector('a-scene').systems['network-controller'];
-  let inventory_list = controller.get_inventory_list();
-  let connected_clients_list = network_controller.get_connected_clients_list();
-  if(connected_clients_list.length === 0){
+  var match;
+  var pl = /\+/g;  // Regex for replacing addition symbol with a space
+  var search = /([^&=]+)=?([^&]*)/g;
+  var decode = function (s) { return decodeURIComponent(s.replace(pl, ' ')); };
+  var query = window.location.search.substring(1);
+  var urlParams = {};
+
+  match = search.exec(query);
+  while (match) {
+    urlParams[decode(match[1])] = decode(match[2]);
+    match = search.exec(query);
+  }
+  if(urlParams.inventory_list){
+    let controller = document.querySelector('a-scene').systems['master-controller'];
+    let network_controller = document.querySelector('a-scene').systems['network-controller'];
+    let inventory_list = controller.get_inventory_list();
+    let connected_clients_list = network_controller.get_connected_clients_list();
     document.querySelector('[data-name='+inventory_list[0]['entity_id']+']').click();
   }
+  
 }
 
 function create_notification(msg){

@@ -4,4 +4,5 @@ window.onload = function(){
   create_meshes_menu();
   load_inventory_list();
   load_new_task(null);
+  load_default_mesh();
 }

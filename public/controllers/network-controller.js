@@ -24,6 +24,7 @@ AFRAME.registerSystem('network-controller',{
         case 'toggle':
           this.el.systems['master-controller'].toggle_entity(data['entity_id']);
           console.log("received instruction "+data['instruction'] +"to act on "+data['entity_id']);
+          break;
         default:
           break;
                                 };
@@ -76,7 +77,6 @@ AFRAME.registerSystem('network-controller',{
       console.log('clientConnected event. clientId =', evt.detail.clientId);
       create_notification('Client '+evt.detail.clientId+' has connected to you.');
       this.connected_clients_list.push(evt.detail.clientId);
-
       if(this.el.systems['master-controller'].get_meshes_info_list().length === 0 &&
          this.startup_synced === false){
           

@@ -13,6 +13,14 @@ ul#dropdown_meshes_selection.dropdown-content li a{
   background: white;
   color: purple;
 }
+
+ul#dropdown_meshes_selection.dropdown-content li a.mesh_active{
+  background: #f1f1f1;
+}
+
+li.mesh_active{
+  background: #f1f1f1;
+
 .modal-footer{
   text-align:center;
 }

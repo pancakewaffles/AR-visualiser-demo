@@ -46,8 +46,10 @@ function load_inventory_list(){
     urlParams[decode(match[1])] = decode(match[2]);
     match = search.exec(query);
   }
-  if(!urlParams.inventory_list){
+  var inv_list = document.querySelector('a-scene').systems['master-controller'].get_inventory_list();
+  if(!urlParams.inventory_list && (!Array.isArray(inv_list) || !inv_list.length) ){
     console.log('inventory list not provided in URL.');
+    alert("No data loaded, try loading the AR Visualiser through dbslice.");
     //document.querySelector('a-scene').systems['master-controller'].set_inventory_list(sample_data);
     return;
   }
@@ -66,8 +68,6 @@ function create_meshes_menu(){
   dropdownIcon.innerHTML = 'apps';
   dropdownTrigger.className = 'waves-dark waves-effect dropdown-trigger btn-floating white';
   dropdownTrigger.setAttribute('data-target','dropdown_meshes_selection');
-  dropdownTrigger.setAttribute('data-covertrigger','false');
-  dropdownTrigger.setAttribute('data-constrainwidth','false');
   
   // Dropdown Structure
   let ul = document.createElement('ul');
@@ -80,7 +80,7 @@ function create_meshes_menu(){
   
   document.body.appendChild(dropdownContainer);
   
-  M.Dropdown.init(dropdownTrigger,{coverTrigger:false,container:document.querySelector('#meshes_menu_container'),constrainWidth:false});
+  M.Dropdown.init(dropdownTrigger,{coverTrigger:false,container:document.querySelector('#meshes_menu_container'),constrainWidth:false, closeOnClick:false});
   
 };
 
@@ -92,6 +92,7 @@ function populate_meshes_menu(menuData){
      let lineElement = document.createElement('li');
      let lineElement_a = document.createElement('a');
      lineElement_a.innerHTML = mesh_id;
+     lineElement_a.setAttribute('data-name',mesh_id);
      lineElement.appendChild(lineElement_a);
      ul.appendChild(lineElement);
      lineElement.addEventListener('click', function(ev){
@@ -113,8 +114,8 @@ function populate_meshes_menu(menuData){
                           menuData.meshes[mesh_id]);
          }
        })
-    let divider = document.createElement('div');
-    divider.className = "dropdown-divider";
+    let divider = document.createElement('li');
+    divider.className = "divider";
     ul.appendChild(divider);
      });
   M.Dropdown.getInstance(document.querySelector('.dropdown-trigger')).recalculateDimensions();
@@ -274,6 +275,29 @@ function load_new_task(el){
     populate_meshes_menu(menuData);
 
 };
+
+function load_default_mesh(){ // DO NOT USE YET, has issues with synchronisation
+  var match;
+  var pl = /\+/g;  // Regex for replacing addition symbol with a space
+  var search = /([^&=]+)=?([^&]*)/g;
+  var decode = function (s) { return decodeURIComponent(s.replace(pl, ' ')); };
+  var query = window.location.search.substring(1);
+  var urlParams = {};
+
+  match = search.exec(query);
+  while (match) {
+    urlParams[decode(match[1])] = decode(match[2]);
+    match = search.exec(query);
+  }
+  if(urlParams.inventory_list){
+    let controller = document.querySelector('a-scene').systems['master-controller'];
+    let network_controller = document.querySelector('a-scene').systems['network-controller'];
+    let inventory_list = controller.get_inventory_list();
+    let connected_clients_list = network_controller.get_connected_clients_list();
+    document.querySelector('[data-name='+inventory_list[0]['entity_id']+']').click();
+  }
+  
+}
 
 function create_notification(msg){
   M.toast({html: msg, displayLength:1500});    

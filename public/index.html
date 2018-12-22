@@ -1,5 +1,16 @@
 <html>
 <head>
+<!-- Fix for Android Front Camera Problem -->
+<script>
+var backVideoId = false;
+var haveId = navigator.mediaDevices.enumerateDevices().then(devices => 
+                                                            devices.find(d => d.kind === "videoinput" && d.label.indexOf("back") >= 0));
+window.addEventListener("DOMContentLoaded", function () { haveId.then(id => {
+                                                            alert("ID 2 : "+ id.label);
+                                                            backVideoId = id.deviceId;
+                                                        })
+                                                      });
+</script>
 <script src="https://aframe.io/releases/0.8.2/aframe.min.js"></script>
 <!-- AR -->
 <script src="https://rawgit.com/jeromeetienne/ar.js/master/aframe/build/aframe-ar.js"></script>
@@ -47,7 +58,7 @@
 
 </head>
 <body>
-  <script src="./lib/onload.js"></script>
+  <script defer src="./lib/onload.js"></script>
   
 	<a-scene 
            master-controller 

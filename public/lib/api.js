@@ -47,9 +47,12 @@ function check_illegal(){
     match = search.exec(query);
   }
   var lis = document.getElementById("dropdown_meshes_selection").getElementsByTagName("li");
-  console.log(lis);
-  if(!urlParams.inventory_list && lis.length === 0){
+  var network_controller = document.querySelector('a-scene').systems['network-controller'];
+  if(!urlParams.inventory_list && lis.length === 0 && network_controller.get_connected_clients_list().length === 0){
     alert("No data could be loaded. Try accessing the AR Visualiser via dbslice, or via an invite link.");
+    return;
+  }else if(!urlParams.inventory_list && lis.length === 0){
+    create_notification("Still loading meshes, please wait.");
     return;
   }
 }

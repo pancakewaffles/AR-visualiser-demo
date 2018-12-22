@@ -2,7 +2,5 @@
 window.onload = function(){
   create_settings();
   create_meshes_menu();
-  load_inventory_list();
-  load_new_task(null);
-  load_default_mesh();
+  load_inventory_list_from_url();
 }

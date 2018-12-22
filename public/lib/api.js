@@ -32,8 +32,8 @@ function load_mesh(url,el){
              )
 };
 
-// Loads inventory_list from URL params
-function load_inventory_list(){
+// Alerts if user "illegally" joins a room without any data in it i.e. not from the dbslice website and not through invite links)
+function check_illegal(){
   var match;
   var pl = /\+/g;  // Regex for replacing addition symbol with a space
   var search = /([^&=]+)=?([^&]*)/g;
@@ -46,10 +46,33 @@ function load_inventory_list(){
     urlParams[decode(match[1])] = decode(match[2]);
     match = search.exec(query);
   }
-  var inv_list = document.querySelector('a-scene').systems['master-controller'].get_inventory_list();
-  if(!urlParams.inventory_list && (!Array.isArray(inv_list) || !inv_list.length) ){
+  var lis = document.getElementById("dropdown_meshes_selection").getElementsByTagName("li");
+  var network_controller = document.querySelector('a-scene').systems['network-controller'];
+  if(!urlParams.inventory_list && lis.length === 0 && network_controller.get_connected_clients_list().length === 0){
+    alert("No data could be loaded. Try accessing the AR Visualiser via dbslice, or via an invite link.");
+    return;
+  }else if(!urlParams.inventory_list && lis.length === 0){
+    create_notification("Still loading meshes, please wait.");
+    return;
+  }
+}
+
+// Loads inventory_list from URL params
+function load_inventory_list_from_url(){
+  var match;
+  var pl = /\+/g;  // Regex for replacing addition symbol with a space
+  var search = /([^&=]+)=?([^&]*)/g;
+  var decode = function (s) { return decodeURIComponent(s.replace(pl, ' ')); };
+  var query = window.location.search.substring(1);
+  var urlParams = {};
+
+  match = search.exec(query);
+  while (match) {
+    urlParams[decode(match[1])] = decode(match[2]);
+    match = search.exec(query);
+  }
+  if(!urlParams.inventory_list){
     console.log('inventory list not provided in URL.');
-    alert("No data loaded, try loading the AR Visualiser through dbslice.");
     //document.querySelector('a-scene').systems['master-controller'].set_inventory_list(sample_data);
     return;
   }
@@ -77,6 +100,11 @@ function create_meshes_menu(){
   dropdownContainer.appendChild(dropdownTrigger);
   dropdownContainer.appendChild(ul);
   dropdownContainer.id = 'meshes_menu_container';
+  
+  // Add check for "illegal" users
+  dropdownContainer.addEventListener('click',function(ev){
+    check_illegal();
+  }); 
   
   document.body.appendChild(dropdownContainer);
   
@@ -273,10 +301,11 @@ function load_new_task(el){
     menuData.task_id = task_id;
 
     populate_meshes_menu(menuData);
+    load_default_mesh();
 
 };
 
-function load_default_mesh(){ // DO NOT USE YET, has issues with synchronisation
+function load_default_mesh(){
   var match;
   var pl = /\+/g;  // Regex for replacing addition symbol with a space
   var search = /([^&=]+)=?([^&]*)/g;

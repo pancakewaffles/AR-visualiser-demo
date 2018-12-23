@@ -3,7 +3,6 @@ AFRAME.registerComponent('mobile-optimisation',{
     let isMobile = AFRAME.utils.device.isMobile();
     if(isMobile){
       let str = "sourceType:webcam; detectionMode: mono; maxDetectionRate:30; canvasWidth: 240; canvasHeight: 180;debugUIEnabled: false;";
-      alert(str);
       this.el.setAttribute('arjs',str);
       document.querySelector('#scene-scaler').object3D.scale.set(0.3,0.3,0.3);
     }else{

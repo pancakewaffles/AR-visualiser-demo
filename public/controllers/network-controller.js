@@ -50,6 +50,9 @@ AFRAME.registerSystem('network-controller',{
       console.log('received.');
     });
     
+    NAF.connection.subscribeToDataChannel('requests',(senderId,dataType,data,targetId) => {
+    });
+    
     document.body.addEventListener('clientConnected', function (evt) {
         document.querySelector('a-scene').systems['network-controller'].onclientConnected(evt);
     });
@@ -77,17 +80,19 @@ AFRAME.registerSystem('network-controller',{
       console.log('clientConnected event. clientId =', evt.detail.clientId);
       create_notification('Client '+evt.detail.clientId+' has connected to you.');
       this.connected_clients_list.push(evt.detail.clientId);
-      if(this.el.systems['master-controller'].get_meshes_info_list().length === 0 &&
+      if(!has_inv_list_in_url() &&
          this.startup_synced === false){
-          
           console.log('just joined, getting info from '+evt.detail.clientId);
           this.startup_synced = true;
       }else{
-          
           console.log('sending stuff to ' + evt.detail.clientId);
           let meshes_info_list = this.el.systems['master-controller'].get_meshes_info_list();
           let inventory_list = this.el.systems['master-controller'].get_inventory_list();
-          this.send_info_lists(evt.detail.clientId,[meshes_info_list , inventory_list]);
+          // only send if you have something in your inventory list.
+          if(inventory_list.length > 0){
+            this.send_info_lists(evt.detail.clientId,[meshes_info_list , inventory_list]);
+          }
+          
       }
     },
     onclientDisconnected:function(evt){

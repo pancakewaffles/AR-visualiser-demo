@@ -7,6 +7,7 @@ AFRAME.registerSystem('master-controller', {
     this.mid_pts_dict = {};
     this.update_all();
     this.is_something_visible = false;
+
   },
   is_something_visible:function(){
     return this.is_something_visible;

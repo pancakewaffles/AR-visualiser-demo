@@ -32,6 +32,27 @@ function load_mesh(url,el){
              )
 };
 
+// Checks if it has inventory list in url
+function has_inv_list_in_url(){
+  var match;
+  var pl = /\+/g;  // Regex for replacing addition symbol with a space
+  var search = /([^&=]+)=?([^&]*)/g;
+  var decode = function (s) { return decodeURIComponent(s.replace(pl, ' ')); };
+  var query = window.location.search.substring(1);
+  var urlParams = {};
+
+  match = search.exec(query);
+  while (match) {
+    urlParams[decode(match[1])] = decode(match[2]);
+    match = search.exec(query);
+  }
+  if(urlParams.inventory_list){
+    return true;
+  }
+  return false;
+
+}
+
 // Alerts if user "illegally" joins a room without any data in it i.e. not from the dbslice website and not through invite links)
 function check_illegal(){
   var match;
@@ -47,12 +68,15 @@ function check_illegal(){
     match = search.exec(query);
   }
   var lis = document.getElementById("dropdown_meshes_selection").getElementsByTagName("li");
+  console.log(lis);
   var network_controller = document.querySelector('a-scene').systems['network-controller'];
   if(!urlParams.inventory_list && lis.length === 0 && network_controller.get_connected_clients_list().length === 0){
     alert("No data could be loaded. Try accessing the AR Visualiser via dbslice, or via an invite link.");
     return;
   }else if(!urlParams.inventory_list && lis.length === 0){
     create_notification("Still loading meshes, please wait.");
+    return;
+  }else{
     return;
   }
 }

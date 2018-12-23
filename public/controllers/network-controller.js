@@ -104,7 +104,7 @@ AFRAME.registerSystem('network-controller',{
           console.log('sending stuff to ' + evt.detail.clientId);
           let meshes_info_list = this.el.systems['master-controller'].get_meshes_info_list();
           let inventory_list = this.el.systems['master-controller'].get_inventory_list();
-          // only send if you have something in your inventory list.
+          // only send if you have something to send
           if(inventory_list.length > 0){
             this.send_info_lists(evt.detail.clientId,[meshes_info_list , inventory_list]);
           }

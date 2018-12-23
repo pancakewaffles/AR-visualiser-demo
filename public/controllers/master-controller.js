@@ -8,7 +8,6 @@ AFRAME.registerSystem('master-controller', {
     this.update_all();
     this.is_something_visible = false;
     this.scene_version = 0;
-
   },
   reset:function(){
       for(let i = 0;i<this.meshes_info_list.length;i++){

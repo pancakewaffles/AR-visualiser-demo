@@ -1,20 +1,10 @@
 <html>
 <head>
-<!-- Fix for Android Front Camera Problem -->
-<script>
-var backVideoId = false;
-var haveId = navigator.mediaDevices.enumerateDevices().then(devices => 
-                                                            devices.find(d => d.kind === "videoinput" && d.label.indexOf("back") >= 0));
-window.addEventListener("DOMContentLoaded", function () { haveId.then(id => {
-                                                            alert("ID 2 : "+ id.label);
-                                                            backVideoId = id.deviceId;
-                                                        })
-                                                      });
-</script>
 <script src="https://aframe.io/releases/0.8.2/aframe.min.js"></script>
 <!-- AR -->
-<script src="https://rawgit.com/jeromeetienne/ar.js/master/aframe/build/aframe-ar.js"></script>
-<script>THREEx.ArToolkitContext.baseURL = 'https://rawgit.com/jeromeetienne/ar.js/master/three.js/'</script>
+<!--<script src="https://rawgit.com/jeromeetienne/ar.js/master/aframe/build/aframe-ar.js"></script>-->
+<script src="./lib/aframe-ar.js"></script>
+<script>ARjs.Context.baseURL = 'https://rawgit.com/jeromeetienne/ar.js/master/three.js/'</script>
 <!-- d3 library -->
 <script src="./lib/d3.v4.min.js"></script>
 <script src="./lib/d3-scale-chromatic.v1.min.js"></script>
@@ -55,6 +45,7 @@ window.addEventListener("DOMContentLoaded", function () { haveId.then(id => {
 <script src="./controllers/network-controller.js"></script>
   
 <link rel="stylesheet" type="text/css" href="./css/styles.css" />
+
 
 </head>
 <body>

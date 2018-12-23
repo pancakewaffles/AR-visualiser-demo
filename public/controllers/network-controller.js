@@ -4,6 +4,7 @@ AFRAME.registerSystem('network-controller',{
     this.startup_synced = false;
     this.connected_clients_list = [];
     NAF.connection.subscribeToDataChannel('instruction_channel',(senderId,dataType,data,targetId) => {
+      
       switch(data['instruction']){
         case 'rotate':
           this.el.systems['master-controller'].set_rotation(data['entity_id'],data['rotationObject']);
@@ -28,10 +29,13 @@ AFRAME.registerSystem('network-controller',{
         default:
           break;
                                 };
+                                
+
         
     });
     
     NAF.connection.subscribeToDataChannel('info_lists_channel',(senderId,dataType,data,targetId) => {
+      this.el.systems['master-controller'].reset();
       for(let i = 0;i<data[0].length;i++){ //meshes_info_list
         let entity_info = data[0][i];
         let entity_id = entity_info['entity_id'];
@@ -48,6 +52,21 @@ AFRAME.registerSystem('network-controller',{
       //inventory_list
       this.el.systems['master-controller'].set_inventory_list(data[1]);
       console.log('received.');
+    });
+    
+    NAF.connection.subscribeToDataChannel('synchronisation',(senderId,dataType,data,targetId) => {
+      switch(data['type']){
+        case 'request-scene-version':
+          break;
+        case 'request-data':
+          break;
+        case 'receive-scene-version':
+          break;
+        case 'receive-data':
+          break;
+        default:
+          break;
+                         }
     });
     
     document.body.addEventListener('clientConnected', function (evt) {
@@ -77,17 +96,19 @@ AFRAME.registerSystem('network-controller',{
       console.log('clientConnected event. clientId =', evt.detail.clientId);
       create_notification('Client '+evt.detail.clientId+' has connected to you.');
       this.connected_clients_list.push(evt.detail.clientId);
-      if(this.el.systems['master-controller'].get_meshes_info_list().length === 0 &&
+      if(!has_inv_list_in_url() &&
          this.startup_synced === false){
-          
           console.log('just joined, getting info from '+evt.detail.clientId);
           this.startup_synced = true;
       }else{
-          
           console.log('sending stuff to ' + evt.detail.clientId);
           let meshes_info_list = this.el.systems['master-controller'].get_meshes_info_list();
           let inventory_list = this.el.systems['master-controller'].get_inventory_list();
-          this.send_info_lists(evt.detail.clientId,[meshes_info_list , inventory_list]);
+          // only send if you have something to send
+          if(inventory_list.length > 0){
+            this.send_info_lists(evt.detail.clientId,[meshes_info_list , inventory_list]);
+          }
+          
       }
     },
     onclientDisconnected:function(evt){
@@ -101,5 +122,10 @@ AFRAME.registerSystem('network-controller',{
   },
   is_connected:function(){
     return NAF.connection.isConnected();
+  },
+  resync:function(){
+  },
+  scene_version_outdated:function(version){
+    return false;
   }
   })

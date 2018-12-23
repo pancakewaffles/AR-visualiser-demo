@@ -32,6 +32,27 @@ function load_mesh(url,el){
              )
 };
 
+// Checks if it has inventory list in url
+function has_inv_list_in_url(){
+  var match;
+  var pl = /\+/g;  // Regex for replacing addition symbol with a space
+  var search = /([^&=]+)=?([^&]*)/g;
+  var decode = function (s) { return decodeURIComponent(s.replace(pl, ' ')); };
+  var query = window.location.search.substring(1);
+  var urlParams = {};
+
+  match = search.exec(query);
+  while (match) {
+    urlParams[decode(match[1])] = decode(match[2]);
+    match = search.exec(query);
+  }
+  if(urlParams.inventory_list){
+    return true;
+  }
+  return false;
+
+}
+
 // Alerts if user "illegally" joins a room without any data in it i.e. not from the dbslice website and not through invite links)
 function check_illegal(){
   var match;
@@ -47,12 +68,15 @@ function check_illegal(){
     match = search.exec(query);
   }
   var lis = document.getElementById("dropdown_meshes_selection").getElementsByTagName("li");
+  console.log(lis.length);
   var network_controller = document.querySelector('a-scene').systems['network-controller'];
   if(!urlParams.inventory_list && lis.length === 0 && network_controller.get_connected_clients_list().length === 0){
     alert("No data could be loaded. Try accessing the AR Visualiser via dbslice, or via an invite link.");
     return;
   }else if(!urlParams.inventory_list && lis.length === 0){
     create_notification("Still loading meshes, please wait.");
+    return;
+  }else{
     return;
   }
 }
@@ -225,6 +249,7 @@ function create_settings(){
   scene_scaler_med_button_div.appendChild(scene_scaler_med_button_a);
   content_section_scene_scaler.appendChild(scene_scaler_med_button_div);
   
+
   let scene_scaler_large_button_div = document.createElement('div');
   scene_scaler_large_button_div.className = 'col s4 center-align';
   let scene_scaler_large_button_a = document.createElement('a');
@@ -242,6 +267,28 @@ function create_settings(){
   divider.className = 'divider';
   content.appendChild(divider);
   
+  /*
+  let content_section_scene_reset = document.createElement('div');
+  content_section_scene_reset.className = 'section row content_scene_reset';
+  content_section_scene_reset.innerHTML = `<h5>Resync</h5>
+                                            <p>Use this if you find your scene different from others.</p>
+                                            `;
+  let scene_reset_div = document.createElement('div');
+  scene_reset_div.className = 'col s4 center-align';
+  let scene_reset_a = document.createElement('a');
+  scene_reset_a.className = 'waves-effect waves-light btn';
+  scene_reset_a.innerHTML = 'Resync';
+  scene_reset_a.addEventListener('click',function(evt){
+    document.querySelector('a-scene').systems['master-controller'].resync();
+  });
+  scene_reset_div.appendChild(scene_reset_a);
+  content_section_scene_reset.appendChild(scene_reset_div);
+  
+  content.appendChild(content_section_scene_reset);
+  
+  divider = document.createElement('div');
+  divider.className = 'divider';
+  content.appendChild(divider); */
   
   // Modal Footer
   let modalFooter = document.createElement('div');

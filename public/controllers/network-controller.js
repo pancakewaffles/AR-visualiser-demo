@@ -4,6 +4,7 @@ AFRAME.registerSystem('network-controller',{
     this.startup_synced = false;
     this.connected_clients_list = [];
     NAF.connection.subscribeToDataChannel('instruction_channel',(senderId,dataType,data,targetId) => {
+      
       switch(data['instruction']){
         case 'rotate':
           this.el.systems['master-controller'].set_rotation(data['entity_id'],data['rotationObject']);
@@ -28,6 +29,8 @@ AFRAME.registerSystem('network-controller',{
         default:
           break;
                                 };
+                                
+
         
     });
     
@@ -106,5 +109,8 @@ AFRAME.registerSystem('network-controller',{
   },
   is_connected:function(){
     return NAF.connection.isConnected();
+  },
+  resync:function(){
+    create_notification('Resyncing to network.');
   }
   })

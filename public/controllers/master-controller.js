@@ -9,6 +9,15 @@ AFRAME.registerSystem('master-controller', {
     this.is_something_visible = false;
 
   },
+  resync:function(){
+    for(let i = 0;i<this.meshes_info_list.length;i++){
+      let entity = this.meshes_info_list[i];
+      remove_entity(entity['entity_id']);
+    }
+    this.meshes_info_list = [];
+    this.mid_pts_dict = {};
+    this.el.systems['network-controller'].resync();
+  },
   is_something_visible:function(){
     return this.is_something_visible;
   },

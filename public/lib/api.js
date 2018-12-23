@@ -68,7 +68,7 @@ function check_illegal(){
     match = search.exec(query);
   }
   var lis = document.getElementById("dropdown_meshes_selection").getElementsByTagName("li");
-  console.log(lis);
+  console.log(lis.length);
   var network_controller = document.querySelector('a-scene').systems['network-controller'];
   if(!urlParams.inventory_list && lis.length === 0 && network_controller.get_connected_clients_list().length === 0){
     alert("No data could be loaded. Try accessing the AR Visualiser via dbslice, or via an invite link.");

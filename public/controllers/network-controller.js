@@ -35,6 +35,7 @@ AFRAME.registerSystem('network-controller',{
     });
     
     NAF.connection.subscribeToDataChannel('info_lists_channel',(senderId,dataType,data,targetId) => {
+      this.el.systems['master-controller'].reset();
       for(let i = 0;i<data[0].length;i++){ //meshes_info_list
         let entity_info = data[0][i];
         let entity_id = entity_info['entity_id'];
@@ -53,7 +54,19 @@ AFRAME.registerSystem('network-controller',{
       console.log('received.');
     });
     
-    NAF.connection.subscribeToDataChannel('requests',(senderId,dataType,data,targetId) => {
+    NAF.connection.subscribeToDataChannel('synchronisation',(senderId,dataType,data,targetId) => {
+      switch(data['type']){
+        case 'request-scene-version':
+          break;
+        case 'request-data':
+          break;
+        case 'receive-scene-version':
+          break;
+        case 'receive-data':
+          break;
+        default:
+          break;
+                         }
     });
     
     document.body.addEventListener('clientConnected', function (evt) {
@@ -111,6 +124,8 @@ AFRAME.registerSystem('network-controller',{
     return NAF.connection.isConnected();
   },
   resync:function(){
-    create_notification('Resyncing to network.');
+  },
+  scene_version_outdated:function(version){
+    return false;
   }
   })

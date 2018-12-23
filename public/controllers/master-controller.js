@@ -7,16 +7,26 @@ AFRAME.registerSystem('master-controller', {
     this.mid_pts_dict = {};
     this.update_all();
     this.is_something_visible = false;
+    this.scene_version = 0;
 
   },
+  reset:function(){
+      for(let i = 0;i<this.meshes_info_list.length;i++){
+        let entity = this.meshes_info_list[i];
+        this.remove_entity(entity['entity_id']);
+      }
+      this.meshes_info_list = [];
+      this.mid_pts_dict = {};
+      this.scene_version = 0;
+  },
   resync:function(){
-    for(let i = 0;i<this.meshes_info_list.length;i++){
-      let entity = this.meshes_info_list[i];
-      remove_entity(entity['entity_id']);
+    if(this.el.systems['network-controller'].scene_version_outdated(this.scene_version)){   
+      create_notification("Resyncing to network.");
+      this.reset();
+      this.el.systems['network-controller'].resync();
+    }else{
+      create_notification("You are already in sync with the rest of the network.");
     }
-    this.meshes_info_list = [];
-    this.mid_pts_dict = {};
-    this.el.systems['network-controller'].resync();
   },
   is_something_visible:function(){
     return this.is_something_visible;

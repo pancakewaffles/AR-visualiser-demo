@@ -249,6 +249,7 @@ function create_settings(){
   scene_scaler_med_button_div.appendChild(scene_scaler_med_button_a);
   content_section_scene_scaler.appendChild(scene_scaler_med_button_div);
   
+
   let scene_scaler_large_button_div = document.createElement('div');
   scene_scaler_large_button_div.className = 'col s4 center-align';
   let scene_scaler_large_button_a = document.createElement('a');
@@ -266,6 +267,28 @@ function create_settings(){
   divider.className = 'divider';
   content.appendChild(divider);
   
+  /*
+  let content_section_scene_reset = document.createElement('div');
+  content_section_scene_reset.className = 'section row content_scene_reset';
+  content_section_scene_reset.innerHTML = `<h5>Resync</h5>
+                                            <p>Use this if you find your scene different from others.</p>
+                                            `;
+  let scene_reset_div = document.createElement('div');
+  scene_reset_div.className = 'col s4 center-align';
+  let scene_reset_a = document.createElement('a');
+  scene_reset_a.className = 'waves-effect waves-light btn';
+  scene_reset_a.innerHTML = 'Resync';
+  scene_reset_a.addEventListener('click',function(evt){
+    document.querySelector('a-scene').systems['master-controller'].resync();
+  });
+  scene_reset_div.appendChild(scene_reset_a);
+  content_section_scene_reset.appendChild(scene_reset_div);
+  
+  content.appendChild(content_section_scene_reset);
+  
+  divider = document.createElement('div');
+  divider.className = 'divider';
+  content.appendChild(divider); */
   
   // Modal Footer
   let modalFooter = document.createElement('div');

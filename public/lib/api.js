@@ -222,6 +222,56 @@ function create_settings(){
   divider.className = 'divider';
   content.appendChild(divider);
   
+  let content_section_copy = document.createElement('div');
+  content_section_copy.className = 'section content_copy';
+  let copy_info = document.createElement('p');
+  copy_info.innerHTML = "<h5>Invite others to this room </h5>";
+  let copyButton_container = document.createElement('div');
+  copyButton_container.className = 'center-align';
+  let copyButton = document.createElement('a');
+  copyButton.className = 'waves-effect btn';
+  copyButton.innerHTML = 'Copy link to clipboard';
+  copyButton.addEventListener('click',function(evt){
+    copyLink();
+    copyButton.innerHTML = 'Copied!';
+  });
+  copyButton_container.appendChild(copyButton);
+  content_section_copy.appendChild(copy_info);
+  content_section_copy.appendChild(copyButton_container);
+  
+  content.appendChild(content_section_copy);
+  
+  divider = document.createElement('div');
+  divider.className = 'divider';
+  content.appendChild(divider);
+  
+  /*
+  let content_section_scene_reset = document.createElement('div');
+  content_section_scene_reset.className = 'section row content_scene_reset';
+  content_section_scene_reset.innerHTML = `<h5>Resync</h5>
+                                            <p>Use this if you find your scene different from others.</p>
+                                            `;
+  let scene_reset_div = document.createElement('div');
+  scene_reset_div.className = 'col s4 center-align';
+  let scene_reset_a = document.createElement('a');
+  scene_reset_a.className = 'waves-effect waves-light btn';
+  scene_reset_a.innerHTML = 'Resync';
+  scene_reset_a.addEventListener('click',function(evt){
+    document.querySelector('a-scene').systems['master-controller'].resync();
+  });
+  scene_reset_div.appendChild(scene_reset_a);
+  content_section_scene_reset.appendChild(scene_reset_div);
+  
+  content.appendChild(content_section_scene_reset);
+  
+  divider = document.createElement('div');
+  divider.className = 'divider';
+  content.appendChild(divider); */
+  
+  // Modal Footer
+  let modalFooter = document.createElement('div');
+  modalFooter.className = 'modal-footer';
+  
   let content_section_scene_scaler = document.createElement('div');
   content_section_scene_scaler.className = 'section row content_scene_scaler';
   content_section_scene_scaler.innerHTML = `<h5>Scene scaler</h5>
@@ -262,57 +312,12 @@ function create_settings(){
   content_section_scene_scaler.appendChild(scene_scaler_large_button_div);
   
   content.appendChild(content_section_scene_scaler);
-  
-  divider = document.createElement('div');
-  divider.className = 'divider';
-  content.appendChild(divider);
-  
-  /*
-  let content_section_scene_reset = document.createElement('div');
-  content_section_scene_reset.className = 'section row content_scene_reset';
-  content_section_scene_reset.innerHTML = `<h5>Resync</h5>
-                                            <p>Use this if you find your scene different from others.</p>
-                                            `;
-  let scene_reset_div = document.createElement('div');
-  scene_reset_div.className = 'col s4 center-align';
-  let scene_reset_a = document.createElement('a');
-  scene_reset_a.className = 'waves-effect waves-light btn';
-  scene_reset_a.innerHTML = 'Resync';
-  scene_reset_a.addEventListener('click',function(evt){
-    document.querySelector('a-scene').systems['master-controller'].resync();
-  });
-  scene_reset_div.appendChild(scene_reset_a);
-  content_section_scene_reset.appendChild(scene_reset_div);
-  
-  content.appendChild(content_section_scene_reset);
-  
-  divider = document.createElement('div');
-  divider.className = 'divider';
-  content.appendChild(divider); */
-  
-  // Modal Footer
-  let modalFooter = document.createElement('div');
-  modalFooter.className = 'modal-footer';
-  let copy_info = document.createElement('p');
-  copy_info.innerHTML = "Copy the link below to share it with others.";
-  copy_info.setAttribute('align','center');
-  let modalFooter_copyButton_container = document.createElement('div');
-  modalFooter_copyButton_container.className = 'center-align';
-  let modalFooter_copyButton = document.createElement('a');
-  modalFooter_copyButton.className = 'waves-effect btn';
-  modalFooter_copyButton.innerHTML = 'Copy';
-  modalFooter_copyButton.addEventListener('click',function(evt){
-    copyLink();
-    modalFooter_copyButton.innerHTML = 'Copied!';
-  });
-  modalFooter_copyButton_container.appendChild(modalFooter_copyButton);
-  
-
   modalContent.appendChild(content);
-  modalFooter.appendChild(copy_info);
-  modalFooter.appendChild(modalFooter_copyButton_container);
+  
+  
   modalContainer.appendChild(modalContent);
   modalContainer.appendChild(modalFooter);
+  
   document.body.appendChild(modalContainer);
   
   M.Modal.init(modalContainer, {});
